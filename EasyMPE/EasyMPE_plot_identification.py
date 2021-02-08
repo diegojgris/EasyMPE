@@ -624,9 +624,9 @@ def draw_separation_lines(img, rows_img, col = None):
     # if one element detected
     else:
         # margin decided arbitrarly : 1/4 of the width of the element
-        w = int((end[0] - start[0])/4)
+        margin = int((end[0] - start[0])/4)
         # separation points are calculated and drawn
-        cut_points.append([(start[0] - w , 0), (start[0] - w, maxY), (end[0] + w, 0), (end[0] + w, maxY)])
+        cut_points.append([(start[0] - margin , 0), (start[0] - margin, maxY), (end[0] + margin, 0), (end[0] + margin, maxY)])
         cv2.line(img, cut_points[0][0], cut_points[0][1], (255,), 3)
         cv2.line(img, cut_points[0][2], cut_points[0][3], (255,), 3)
     # average value of the width (margin excluded) of every elements identified
