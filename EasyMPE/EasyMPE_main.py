@@ -273,6 +273,10 @@ class MainWindow(QWidget):
             H = int(coeff*len(self.img[:, 0]))
         self.img = cv2.resize(self.img, (W, H)) 
 
+        # if binary is [0,1], map 1's to 255
+        if np.amax(self.img) == 1 :
+            self.img [self.img == 1] = 255
+        
         # display the picture in a new window
         cv2.namedWindow(WindowsName) 
         cv2.setMouseCallback(WindowsName, self.draw_point, param = None)
