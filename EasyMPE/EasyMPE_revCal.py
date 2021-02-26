@@ -11,6 +11,7 @@ Reverse calculation code is based on Pix4D outputs and Pix4D explanations.
 ###############################################################################
 
 import numpy as np
+import glob
 import rasterio
 import rasterstats as rs
 
@@ -18,7 +19,7 @@ import rasterstats as rs
 ##################################### CODE ####################################
 ###############################################################################
 
-def ReverseCalculation(folder, DSM, offset, PMat, rawImgFold):
+def ReverseCalculation(folder, p4dProjFold, rawImgFold):
     '''Used in "Application" from the class "MainWindow" of MPE_MAIN.py
     Contains all the code to reverse calculate the images
     
@@ -39,9 +40,14 @@ def ReverseCalculation(folder, DSM, offset, PMat, rawImgFold):
     csv_georef = folder / 'Intersection_points_georeferenced.csv'
     
     # read the coordinates file
-    geo_coords = np.loadtxt(csv_georef, dtype = float, delimiter = ';', skiprows = 1)
+    geo_coords = np.loadtxt(csv_georef, dtype = float, delimiter = ',', skiprows = 1)
     coords_id = np.array(geo_coords)[:, :2].astype(int)
     geo_coords = np.array(geo_coords)[:,2:10]
+    
+    # get Pix4d output files
+    offset = glob.glob(str(p4dProjFold) +  '\\1_initial\\params\\*offset*')[0]
+    PMat = glob.glob(str(p4dProjFold) +  '\\1_initial\\params\\*pmatrix*')[0]
+    DSM = glob.glob(str(p4dProjFold) +  '\\3_dsm_ortho\\1_dsm\\*dsm.tif')[0]
 
     # read the offset file
     offset_x, offset_y, offset_z = np.loadtxt(offset, dtype = float)
@@ -109,9 +115,7 @@ def ReverseCalculation(folder, DSM, offset, PMat, rawImgFold):
             
     # create output file and save it as csv
     csv_file = folder / 'reverse_cal_outputs.csv'
-    np.savetxt(csv_file, output_list, delimiter = ';', newline='\n', header = 'Column;Row;raw_img;pt1_u;pt1_v;pt2_u;pt2_v;pt3_u;pt3_v;pt4_u;pt4_v', comments = '', fmt='%s')
+    np.savetxt(csv_file, output_list, delimiter = ',', newline='\n', header = 'Column,Row,raw_img,pt1_u,pt1_v,pt2_u,pt2_v,pt3_u,pt3_v,pt4_u,pt4_v', comments = '', fmt='%s')
     
     # return the csv file name
     return (csv_file)
-
-
