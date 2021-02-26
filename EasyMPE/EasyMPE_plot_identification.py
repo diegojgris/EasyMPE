@@ -883,9 +883,9 @@ def metadata(main_folder, field_image, noise, ColPerPlot,
     # write the csv file containing the corner coordinates
     csv_file = main_folder / "Intersection_points_non_georeferenced.csv"
     inter = np.array(inter)
-    np.savetxt(csv_file, inter, delimiter = ';', newline='\n', header = 'Column;Row;pt1_x;pt1_y;pt2_x;pt2_y;pt3_x;pt3_y;pt4_x;pt4_y', comments = '', fmt='%s')
+    np.savetxt(csv_file, inter, delimiter = ',', newline='\n', header = 'Column;Row;pt1_x;pt1_y;pt2_x;pt2_y;pt3_x;pt3_y;pt4_x;pt4_y', comments = '', fmt='%s')
 
     if inter_geo != []:
         csv_file = main_folder / "Intersection_points_georeferenced.csv"
         inter = np.array(inter)
-        np.savetxt(csv_file, inter_geo, delimiter = ';', newline='\n', header = 'Column;Row;pt1_x;pt1_y;pt2_x;pt2_y;pt3_x;pt3_y;pt4_x;pt4_y', comments = '', fmt='%s')
+        np.savetxt(csv_file, inter_geo, delimiter = ',', newline='\n', header = 'Column;Row;pt1_x;pt1_y;pt2_x;pt2_y;pt3_x;pt3_y;pt4_x;pt4_y', comments = '', fmt='%s')
